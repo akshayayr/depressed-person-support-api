@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depressed Person Support Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Body and basic styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('https://via.placeholder.com/1920x1080/87CEEB/000000?text=Mental+Health+Awareness');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+        header {
+            background-color: rgba(0, 95, 115, 0.8);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+        .content-section {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            border-radius: 10px;
+            text-align: center;
+        }
+        input, select, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>Depressed Person Support Platform</header>
+
+<!-- Initial Auth Section -->
+<div id="auth-section" class="content-section">
+    <h2>Welcome! Please choose an option</h2>
+    <button onclick="showRegister()">Register</button>
+    <button onclick="showLogin()">Login</button>
+</div>
+
+<!-- Register Page -->
+<div id="register-page" class="content-section" style="display: none;">
+    <h2>Register</h2>
+    <input type="text" id="register-username" placeholder="Username" required>
+    <input type="email" id="register-email" placeholder="Email" required>
+    <input type="password" id="register-password" placeholder="Password" required>
+    <button onclick="register()">Register</button>
+    <p>Already have an account? <a href="javascript:void(0);" onclick="showLogin()">Login here</a></p>
+</div>
+
+<!-- Login Page -->
+<div id="login-page" class="content-section" style="display: none;">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Email" required>
+    <input type="password" id="login-password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <a href="javascript:void(0);" onclick="showRegister()">Register here</a></p>
+</div>
+
+<!-- Mood Tracking Page -->
+<div id="mood-tracking" class="content-section" style="display: none;">
+    <h2>How are you feeling today?</h2>
+    <select id="mood-selection">
+        <option value="Depressed">Depressed</option>
+        <option value="Anxious">Anxious</option>
+        <option value="Hopeful">Hopeful</option>
+        <option value="Sad">Sad</option>
+        <option value="Lonely">Lonely</option>
+        <option value="Stressed">Stressed</option>
+        <option value="Motivated">Motivated</option>
+        <option value="Confused">Confused</option>
+        <option value="Relaxed">Relaxed</option>
+    </select>
+    <textarea id="mood-reason" placeholder="Reason for your mood" rows="3"></textarea>
+    <button onclick="submitMood()">Submit Mood</button>
+</div>
+
+<!-- Activity and Book Recommendations -->
+<div id="recommendations" class="content-section" style="display: none;">
+    <h2>Activities and Book Recommendations</h2>
+    <div id="activities">
+        <h3>Suggested Activities</h3>
+        <ul>
+            <li>Deep Breathing</li>
+            <li>Jogging</li>
+            <li>Reading Journals</li>
+            <li>Meditation</li>
+            <li>Practicing Mindfulness</li>
+        </ul>
+    </div>
+    <div id="books">
+        <h3>Recommended Books</h3>
+        <ul>
+            <li>"The Happiness Trap" by Russ Harris</li>
+            <li>"The Power of Now" by Eckhart Tolle</li>
+            <li>"Feeling Good" by David D. Burns</li>
+            <li>"Radical Acceptance" by Tara Brach</li>
+            <li>"Mindfulness in Plain English" by Bhante Henepola Gunaratana</li>
+            <li>"Atomic Habits" by James Clear</li>
+            <li>"The Four Agreements" by Don Miguel Ruiz</li>
+            <li>"Awakening the Buddha Within" by Lama Surya Das</li>
+            <li>"Man's Search for Meaning" by Viktor Frankl</li>
+            <li>"Emotional Intelligence" by Daniel Goleman</li>
+        </ul>
+    </div>
+    <button onclick="showNotifications()">Next</button>
+</div>
+
+<!-- Notifications Page -->
+<div id="notifications" class="content-section" style="display: none;">
+    <h2>Notifications</h2>
+    <p>1. Daily mindfulness practice reminder</p>
+    <p>2. Check in with mood tracker at noon</p>
+    <p>3. Take a 5-minute breathing exercise every evening</p>
+    <button onclick="showHistory()">View History</button>
+</div>
+
+<!-- History Page -->
+<div id="history" class="content-section" style="display: none;">
+    <h2>User History</h2>
+    <p><strong>Username:</strong> <span id="username-display"></span></p>
+    <p><strong>Date and Time of Login:</strong> <span id="login-time"></span></p>
+    <p><strong>Mood:</strong> <span id="user-mood"></span></p>
+    <p><strong>Reason:</strong> <span id="user-reason"></span></p>
+</div>
+
+<script>
+    function showRegister() {
+        document.getElementById("auth-section").style.display = "none";
+        document.getElementById("register-page").style.display = "block";
+    }
+
+    function showLogin() {
+        document.getElementById("auth-section").style.display = "none";
+        document.getElementById("login-page").style.display = "block";
+    }
+
+    function register() {
+        const username = document.getElementById("register-username").value;
+        const email = document.getElementById("register-email").value;
+        const password = document.getElementById("register-password").value;
+        
+        localStorage.setItem("user-username", username);
+        localStorage.setItem("user-email", email);
+        localStorage.setItem("user-password", password);
+        
+        alert("Registration successful! Please login now.");
+        showLogin();
+    }
+
+    function login() {
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+        
+        const storedEmail = localStorage.getItem("user-email");
+        const storedPassword = localStorage.getItem("user-password");
+        
+        if (email === storedEmail && password === storedPassword) {
+            alert("Login successful!");
+            localStorage.setItem("login-time", new Date().toLocaleString());
+            document.getElementById("login-page").style.display = "none";
+            document.getElementById("mood-tracking").style.display = "block";
+        } else {
+            alert("Invalid credentials. Please try again.");
+        }
+    }
+
+    function submitMood() {
+        const mood = document.getElementById("mood-selection").value;
+        const reason = document.getElementById("mood-reason").value;
+
+        localStorage.setItem("current-mood", mood);
+        localStorage.setItem("current-reason", reason);
+
+        document.getElementById("mood-tracking").style.display = "none";
+        document.getElementById("recommendations").style.display = "block";
+    }
+
+    function showNotifications() {
+        document.getElementById("recommendations").style.display = "none";
+        document.getElementById("notifications").style.display = "block";
+    }
+
+    function showHistory() {
+        const username = localStorage.getItem("user-username");
+        const loginTime = localStorage.getItem("login-time");
+        const mood = localStorage.getItem("current-mood");
+        const reason = localStorage.getItem("current-reason");
+
+        document.getElementById("username-display").textContent = username;
+        document.getElementById("login-time").textContent = loginTime;
+        document.getElementById("user-mood").textContent = mood || 'No mood recorded';
+        document.getElementById("user-reason").textContent = reason || 'No reason provided';
+
+        document.getElementById("notifications").style.display = "none";
+        document.getElementById("history").style.display = "block";
+    }
+</script>
+
+</body>
+</html>
